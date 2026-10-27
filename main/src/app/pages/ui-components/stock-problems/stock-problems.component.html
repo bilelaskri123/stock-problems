@@ -1,0 +1,36 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Problems</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="d-flex">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Subject</mat-label>
+        <mat-select [(ngModel)]="subject" name="subject" required>
+          @for (t of subjects; track t) {
+            <mat-option [value]="t">{{ t }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="onClickCheckProblems()"
+      >
+        <mat-icon>check_circle</mat-icon>
+        Check
+      </button>
+    </div>
+
+    @if (selectedSubject() == "Free Modem With Num Fixe") {
+      <app-free-modems></app-free-modems>
+    } @else if (selectedSubject() == "Exited Modem") {
+      <app-exited-modems></app-exited-modems>
+    } @else if (selectedSubject() == "Reserved Modem") {
+      <app-reserved-modems></app-reserved-modems>
+    } @else {
+      <p>Select An Option Please</p>
+    }
+  </mat-card-content>
+</mat-card>

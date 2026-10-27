@@ -1,0 +1,46 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Free Modems Designation</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <mat-card class="cardWithShadow theme-card">
+      <mat-card-header>
+        <mat-card-title class="m-b-0">{{ intitule() }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        @if (isLoading()) {
+        <div
+          class="d-flex justify-content-center align-items-center spinner-container"
+        >
+          <mat-spinner [diameter]="50"></mat-spinner>
+        </div>
+        } @if (designationCount().length === 0) {
+        <p>No Designation found.</p>
+        } @else {
+        <table
+          class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+        >
+          <thead
+            class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default"
+          >
+            <tr>
+              <th scope="col" class="px-6 py-3 font-medium">Item ID</th>
+              <th scope="col" class="px-6 py-3 font-medium">Intitule</th>
+              <th scope="col" class="px-6 py-3 font-medium">Count</th>
+            </tr>
+          </thead>
+          <tbody class="bg-neutral-primary border-b border-default">
+            @for (problem of designationCount(); track $index) {
+            <tr>
+              <td class="px-6 py-4">{{ $index + 1 }}</td>
+              <td class="px-6 py-4">{{ problem.designation }}</td>
+              <td class="px-6 py-4">{{ problem.total }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

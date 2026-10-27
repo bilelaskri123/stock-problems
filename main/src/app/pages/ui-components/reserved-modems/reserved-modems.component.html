@@ -1,0 +1,102 @@
+@if (isLoading()) {
+  <div
+    class="d-flex justify-content-center align-items-center spinner-container"
+  >
+    <mat-spinner [diameter]="50"></mat-spinner>
+  </div>
+}
+
+<form [formGroup]="filterForm" (ngSubmit)="onFilter()">
+  <div class="d-flex" style="justify-content: space-between">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Serial Number</mat-label>
+      <input
+        matInput
+        formControlName="serialNumber"
+        placeholder="UL0X14A003431"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Intitule</mat-label>
+      <input matInput formControlName="intitule" placeholder="I2S siège bee" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width mr-2">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="statutRadius">
+        @for (status of statuses; track status) {
+          <mat-option [value]="status">{{ status }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width mr-2">
+      <mat-label>Match</mat-label>
+      <mat-select formControlName="isMatch">
+        <mat-option value="true"> True </mat-option>
+        <mat-option value="false"> False </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button type="submit" color="primary">
+      <mat-icon>search</mat-icon>
+      Search
+    </button>
+  </div>
+</form>
+
+@if (exitedProblems().length === 0) {
+  <p>No problems found.</p>
+} @else {
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead
+      class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-3 font-medium">Item ID</th>
+        <th scope="col" class="px-6 py-3 font-medium">Intitule</th>
+        <th scope="col" class="px-6 py-3 font-medium">Num Fixe (AXIA)</th>
+        <th scope="col" class="px-6 py-3 font-medium">SN</th>
+        <th scope="col" class="px-6 py-3 font-medium">Statut</th>
+        <th scope="col" class="px-6 py-3 font-medium">Num Fixe (RADIUS)</th>
+        <th scope="col" class="px-6 py-3 font-medium">Statut Radius</th>
+        <th scope="col" class="px-6 py-3 font-medium">Match Radius</th>
+      </tr>
+    </thead>
+    <tbody class="bg-neutral-primary border-b border-default">
+      @for (problem of exitedProblems(); track $index) {
+        <tr>
+          <td class="px-6 py-4">{{ $index + 1 }}</td>
+          <td class="px-6 py-4">{{ problem.intitule }}</td>
+          @if (problem.num_fixe) {
+            <td class="px-6 py-4">{{ problem.num_fixe }}</td>
+          } @else {
+            <td class="px-6 py-4">-</td>
+          }
+          <td class="px-6 py-4">{{ problem.numero_serie }}</td>
+          <td class="px-6 py-4">{{ problem.statut }}</td>
+          @if (problem.num_fixe_radius) {
+            <td class="px-6 py-4">{{ problem.num_fixe_radius }}</td>
+          } @else {
+            <td class="px-6 py-4">-</td>
+          }
+          <td class="px-6 py-4">{{ problem.statut_radius }}</td>
+          @if (problem.is_matched) {
+            <td class="px-6 py-4">
+              {{ problem.is_matched ? "true" : "false" }}
+            </td>
+          } @else {
+            <td class="px-6 py-4">-</td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <mat-paginator
+    [length]="100"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    (page)="changePage($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+}

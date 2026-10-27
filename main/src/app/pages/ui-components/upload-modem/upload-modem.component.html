@@ -1,0 +1,51 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Upload Modems</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <form #uploadForm="ngForm" (ngSubmit)="onSubmit(uploadForm)">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Type</mat-label>
+        <mat-select [(ngModel)]="type" name="type" required>
+          @for (t of types; track t) {
+            <mat-option [value]="t">{{ t }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          class="w-100"
+          (click)="onClickUpload()"
+        >
+          <mat-icon>cloud_upload</mat-icon>
+          Upload File
+        </button>
+
+        @if (inputFileName) {
+          <p class="m-t-16">Selected file: {{ inputFileName }}</p>
+        }
+
+        <input
+          type="file"
+          #fileInput
+          style="display: none"
+          accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+      <button
+        mat-raised-button
+        color="accent"
+        type="submit"
+        class="w-100 m-t-16"
+        [disabled]="!uploadForm.form.valid || !inputFileName || !type"
+      >
+        Submit
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

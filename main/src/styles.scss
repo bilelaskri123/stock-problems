@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Must be in global styles.scss, NOT in your component CSS
+.mat-mdc-snack-bar-container.success-snackbar {
+  --mdc-snackbar-container-color: #2e7d32; /* Material Green 800 */
+  --mdc-snack-bar-button-color: #ffffff;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-supporting-text-color: #449e48;
+}
+
+.mat-mdc-snack-bar-container.error-snackbar {
+  --mdc-snackbar-container-color: #2e7d32; /* Material Green 800 */
+  --mdc-snack-bar-button-color: #ffffff;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-supporting-text-color: rgb(229, 104, 104);
+}

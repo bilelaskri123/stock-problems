@@ -1,0 +1,79 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Modems</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    @if (isLoading()) {
+      <div
+        class="d-flex justify-content-center align-items-center spinner-container"
+      >
+        <mat-spinner [diameter]="50"></mat-spinner>
+      </div>
+    }
+
+    @if (modemDetailsCopy().length === 0) {
+      <p>No problems found.</p>
+    } @else {
+      <form [formGroup]="filterForm" (ngSubmit)="onFilter()">
+        <div class="d-flex" style="justify-content: space-between">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Intitule</mat-label>
+            <input
+              matInput
+              formControlName="intitule"
+              placeholder="I2S siège bee"
+            />
+          </mat-form-field>
+
+          <button mat-raised-button type="submit" color="primary">
+            <mat-icon>search</mat-icon>
+            Search
+          </button>
+        </div>
+      </form>
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead
+          class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3 font-medium">Item ID</th>
+            <th scope="col" class="px-6 py-3 font-medium">Intitule</th>
+            <th scope="col" class="px-6 py-3 font-medium">Free</th>
+            <th scope="col" class="px-6 py-3 font-medium">Reserved</th>
+            <!-- <th scope="col" class="px-6 py-3 font-medium">Exited</th> -->
+          </tr>
+        </thead>
+        <tbody class="bg-neutral-primary border-b border-default">
+          @for (problem of modemDetailsCopy(); track $index) {
+            <tr>
+              <td class="px-6 py-4">{{ $index + 1 }}</td>
+              <td class="px-6 py-4">{{ problem.Intitule }}</td>
+              <td
+                class="px-6 py-4 column-hover"
+                (click)="viewDetails(problem, 'free')"
+              >
+                {{ problem.free }}
+              </td>
+              <td
+                class="px-6 py-4 column-hover"
+                (click)="viewDetails(problem, 'reserved')"
+              >
+                {{ problem.reserved }}
+              </td>
+              <!-- <td class="px-6 py-4">{{ problem.exited }}</td> -->
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <mat-paginator
+        [length]="dataLength()"
+        [pageSize]="pageSize()"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        (page)="changePage($event)"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    }
+  </mat-card-content>
+</mat-card>
